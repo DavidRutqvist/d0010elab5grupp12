@@ -12,5 +12,6 @@ public class CarWashView extends SimView {
 
 	public void update(Observable obs, Object obj) {
 		System.out.println("TODO: Printed View");
+		
 	}
 }

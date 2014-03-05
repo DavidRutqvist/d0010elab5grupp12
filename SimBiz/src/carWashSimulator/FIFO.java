@@ -2,30 +2,33 @@ package carWashSimulator;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class FIFO implements Queue {
 	private int maximum;
+	private LinkedList<Car> list = new LinkedList<Car>();
 	
 	public FIFO(int maximum){
 		this.maximum = maximum;
 	}
 	
-	@Override
-	public boolean addAll(Collection arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addAll(Collection c) {
+		if((c.size() + list.size()) > maximum){
+			return false;
+		}
+		list.addAll(c);
+		return true;
 	}
 
-	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		list.clear();
 	}
 
-	@Override
-	public boolean contains(Object arg0) {
-		// TODO Auto-generated method stub
+	public boolean contains(Object e) {
+		if (list.contains(e)){
+			return true;
+		}
 		return false;
 	}
 
@@ -41,10 +44,8 @@ public class FIFO implements Queue {
 		return false;
 	}
 
-	@Override
-	public Iterator iterator() {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<Car> iterator() {
+		return list.listIterator();
 	}
 
 	@Override
@@ -83,40 +84,36 @@ public class FIFO implements Queue {
 		return null;
 	}
 
-	@Override
-	public boolean add(Object arg0) {
-		// TODO Auto-generated method stub
+	public boolean add(Object e) {
+		if(list.add((Car)e)){
+			return true;
+		}
 		return false;
 	}
 
-	@Override
 	public Object element() {
-		// TODO Auto-generated method stub
-		return null;
+		return list.element();
+	}
+	
+	// TODO: Fix typecasting.
+	public boolean offer(Object c) {
+		if (list.size() > maximum){
+			return false;
+		}
+		list.add((Car) c);
+		return true;
 	}
 
-	@Override
-	public boolean offer(Object arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Object peek() {
-		// TODO Auto-generated method stub
-		return null;
+		return list.peek();
 	}
 
-	@Override
 	public Object poll() {
-		// TODO Auto-generated method stub
-		return null;
+		return list.poll();
 	}
 
-	@Override
 	public Object remove() {
-		// TODO Auto-generated method stub
-		return null;
+		return list.remove();
 	}
 
 }
