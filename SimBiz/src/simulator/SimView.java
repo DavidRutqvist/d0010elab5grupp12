@@ -1,6 +1,5 @@
 package simulator;
 
-import java.util.Observable;
 import java.util.Observer;
 
 public abstract class SimView implements Observer {
@@ -10,6 +9,6 @@ public abstract class SimView implements Observer {
 		state.addObserver(this);
 	}
 	
-	public abstract void update(Observable obs, Object obj);
+	public abstract void update();
 
 }
