@@ -21,11 +21,18 @@ public class EventQueue implements Iterable<Event> {
 	}
 	
 	public Iterator<Event> iterator() {
-		return new EventQueueIterator();
+		return new EventQueueIterator(this.store);
 	}
 
 	private class EventQueueIterator implements Iterator<Event>
 	{
+		private SortedSequence store;
+		
+		public EventQueueIterator(SortedSequence store)
+		{
+			this.store = store;
+		}
+		
 		public boolean hasNext() {
 			return this.store.size() > 0;
 		}
@@ -44,7 +51,7 @@ public class EventQueue implements Iterable<Event> {
 		public void remove() {
 			if(this.hasNext())
 			{
-				return this.store.removeFirst();
+				this.store.removeFirst();
 			}
 			else
 			{
