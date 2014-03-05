@@ -5,7 +5,12 @@ import java.util.Iterator;
 import java.util.Queue;
 
 public class FIFO implements Queue {
-
+	private int maximum;
+	
+	public FIFO(int maximum){
+		this.maximum = maximum;
+	}
+	
 	@Override
 	public boolean addAll(Collection arg0) {
 		// TODO Auto-generated method stub
