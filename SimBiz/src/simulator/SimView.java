@@ -3,12 +3,13 @@ package simulator;
 import java.util.Observable;
 import java.util.Observer;
 
-public class SimView implements Observer {
-
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-
+public abstract class SimView implements Observer {
+	
+	public SimView(SimState state)
+	{
+		state.addObserver(this);
 	}
+	
+	public abstract void update(Observable obs, Object obj);
 
 }
