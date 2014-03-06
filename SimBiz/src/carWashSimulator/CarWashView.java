@@ -4,14 +4,27 @@ import java.util.Observable;
 
 import simulator.SimView;
 
+/**
+ * A view that observes the state and prints changes to the console.
+ * @author Emil
+ *
+ */
 public class CarWashView extends SimView {
 	private CarWashState state;
 	
+	/**
+	 * Constructor calling super constructor which adds this view as
+	 * an observer to state.
+	 * @param state containing the information.
+	 */
 	public CarWashView(CarWashState state){
 		super(state);
 		this.state = state;
 	}
-
+	
+	/**
+	 * Prints data from state when it notifies observers.
+	 */
 	public void update(Observable obs, Object obj) {
 		
 		if(!(state.getHasStarted())){

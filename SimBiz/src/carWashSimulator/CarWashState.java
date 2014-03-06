@@ -4,6 +4,11 @@ import random.ExponentialRandomStream;
 import random.UniformRandomStream;
 import simulator.SimState;
 
+/**
+ * A state object keeping track of most of the information.
+ * @author Emil
+ *
+ */
 public class CarWashState extends SimState {
 	private final double[] FASTDISTR = {2.8, 4.6};
 	private final double[] SLOWDISTR = {3.6, 6.7};
@@ -31,36 +36,56 @@ public class CarWashState extends SimState {
 		changed();
 	}
 	
+	// Get constants.
 	public double[] getFastWashTimeDistr(){
 		return FASTDISTR;
 	}
-	
 	public double[] getSlowWashTimeDistr(){
 		return SLOWDISTR;
 	}
-	
 	public double getLambda(){
 		return LAMBDA;
 	}
-	
 	public int getSeed(){
 		return SEED;
 	}
-	
-	public int getRejected(){
-		return numRejected;
-	}
-	
 	public int getMaxCarQueue(){
 		return MAXCARQUEUE;
 	}
 	
-	public Car getFirstCarInLine(){
-		Car first = carQueue.poll();
-		changed();
-		return first;
+	// Get available washes.
+	public int getAvailableFastWashes(){
+		return this.numAvailableFastWashes;
+	}
+	public int getAvailableSlowWashes(){
+		return this.numAvailableSlowWashes;
 	}
 	
+	// Get wash time.
+	public double getFastWashTime(){
+		return this.fastWashTime;
+	}
+	public double getSlowWashTime(){
+		return this.slowWashTime;
+	}
+	
+	// Get/set idle time.
+	public double getIdleTime(){
+		return idleTime;
+	}
+	public void setIdleTime(double time){
+		this.idleTime = time;
+	}
+	
+	// Get/set queue time.
+	public double getQueueTime(){
+		return queueTime;
+	}
+	public void setQueueTime(double time){
+		this.queueTime = time;
+	}
+	
+	// Add/remove from queue.
 	public void addCarToLine(Car car){
 		boolean notFull = carQueue.offer(car);
 		if (notFull == false) {
@@ -68,41 +93,14 @@ public class CarWashState extends SimState {
 		}
 		changed();
 	}
-	
-	public int getAvailableFastWashes(){
-		return this.numAvailableFastWashes;
+	public Car getFirstCarInLine(){
+		Car first = carQueue.poll();
+		changed();
+		return first;
 	}
 	
-	public int getAvailableSlowWashes(){
-		return this.numAvailableSlowWashes;
-	}
-	
-	public double getFastWashTime(){
-		return this.fastWashTime;
-	}
-	
-	public double getSlowWashTime(){
-		return this.slowWashTime;
-	}
-	
-	public double getIdleTime(){
-		return idleTime;
-	}
-	
-	public void setIdleTime(double time){
-		this.idleTime = time;
-	}
-	
-	public double getQueueTime(){
-		return queueTime;
-	}
-	
-	public void setQueueTime(double time){
-		this.queueTime = time;
-	}
-	
-	public double getLatestUpdateTime(){
-		return this.latestUpdateTime;
+	public int getRejected(){
+		return numRejected;
 	}
 	
 	public int getCarQueueSize(){
@@ -113,24 +111,35 @@ public class CarWashState extends SimState {
 		return this.factory;
 	}
 	
-	public double getNewArriveTime(){
-		this.latestUpdateTime += expRand.next();
-		return latestUpdateTime;
+	// Get/set the "current" time.
+	public double getLatestUpdateTime(){
+		return this.latestUpdateTime;
+	}
+	public void setLatestUpdateTime(double time){
+		this.latestUpdateTime = time;
 	}
 	
+	/**
+	 * Uses ExponentialRandomStream to calculate when the next arrival should occur.
+	 * @return the next arrival time.
+	 */
+	public double getNewArrivalTime(){
+		return this.latestUpdateTime += expRand.next();
+	}
+	
+	// Get/set started flag.
 	public boolean getHasStarted(){
 		return started;
 	}
-	
 	public void setHasStarted(boolean s){
 		this.started = true;
 		changed();
 	}
 	
+	// Get/set stopped flag.
 	public boolean getHasStopped(){
 		return stopped;
 	}
-	
 	public void setHasStopped(){
 		this.stopped = true;
 		changed();

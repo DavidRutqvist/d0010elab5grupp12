@@ -39,6 +39,10 @@ public class FIFO implements Queue<Car> {
 	public boolean isEmpty() {
 		return list.size() == 0;
 	}
+	
+	public boolean isFull() {
+		return list.size() > maximum;
+	}
 
 	public Iterator<Car> iterator() {
 		return list.listIterator();
@@ -84,7 +88,7 @@ public class FIFO implements Queue<Car> {
 	}
 	
 	public boolean offer(Car c) {
-		if (list.size() > maximum || list.isEmpty()){
+		if (isFull() || list.isEmpty()){
 			return false;
 		}
 		list.add(c);
