@@ -46,8 +46,8 @@ public class CarWashView extends SimView {
 			System.out.print(state.getLatestUpdateTime() + "\t");
 			System.out.print(state.getAvailableFastWashes() + "\t");
 			System.out.print(state.getAvailableSlowWashes() + "\t");
-			System.out.print("-\t");//TODO: car ID
-			System.out.print("-\t");//TODO: event ID
+			System.out.print(state.getCurrentCar() + "\t");
+			System.out.print(state.getCurrentEvent() + "\t");
 			System.out.print(state.getIdleTime() + "\t");
 			System.out.print(state.getQueueTime() + "\t");
 			System.out.print(state.getCarQueueSize()+ "\t");
@@ -58,7 +58,7 @@ public class CarWashView extends SimView {
 			System.out.println("-----------------------------------");
 			System.out.println("Total idle machine time " + state.getIdleTime());
 			System.out.println("Total queueing time: " + state.getQueueTime());
-			System.out.println("Mean queueing time: -");//TODO: mean queueing time
+			System.out.println("Mean queueing time: " + state.getMeanQueueTime());
 			System.out.println("Rejected cars: " + state.getRejected());
 		}
 		

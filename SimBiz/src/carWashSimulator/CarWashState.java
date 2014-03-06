@@ -19,13 +19,16 @@ public class CarWashState extends SimState {
 	private int numRejected = 0;
 	private int numAvailableFastWashes = 2;
 	private int numAvailableSlowWashes = 2;
-	private double fastWashTime = 0;
-	private double slowWashTime = 0;
-	private double idleTime = 0;
-	private double queueTime = 0;
-	private double latestUpdateTime = 0;
+	private int nrCarsWaited = 0;
+	private double fastWashTime = 0.0;
+	private double slowWashTime = 0.0;
+	private double idleTime = 0.00;
+	private double queueTime = 0.00;
+	private double latestUpdateTime = 0.00;
 	private boolean started = false;
 	private boolean stopped = false;
+	private String currentCar = "-";
+	private String currentEvent = "Start";
 	private CarFactory factory = new CarFactory();
 	private ExponentialRandomStream expRand = new ExponentialRandomStream(LAMBDA, SEED);
 	private FIFO carQueue = new FIFO(MAXCARQUEUE);
@@ -34,6 +37,7 @@ public class CarWashState extends SimState {
 		this.fastWashTime = new UniformRandomStream(FASTDISTR[0], FASTDISTR[1], SEED).next();
 		this.slowWashTime = new UniformRandomStream(SLOWDISTR[0], SLOWDISTR[1], SEED).next();
 		changed();
+		setHasStarted();
 	}
 	
 	// Get constants.
@@ -53,12 +57,18 @@ public class CarWashState extends SimState {
 		return MAXCARQUEUE;
 	}
 	
-	// Get available washes.
+	// Get/set available washes.
 	public int getAvailableFastWashes(){
 		return this.numAvailableFastWashes;
 	}
+	public void setAvailableFastWashes(int num){
+		this.numAvailableFastWashes = num;
+	}
 	public int getAvailableSlowWashes(){
 		return this.numAvailableSlowWashes;
+	}
+	public void setAvailableSlowWashes(int num){
+		this.numAvailableSlowWashes = num;
 	}
 	
 	// Get wash time.
@@ -84,6 +94,9 @@ public class CarWashState extends SimState {
 	public void setQueueTime(double time){
 		this.queueTime = time;
 	}
+	public double getMeanQueueTime(){
+		return queueTime/nrCarsWaited;
+	}
 	
 	// Add/remove from queue.
 	public void addCarToLine(Car car){
@@ -91,12 +104,23 @@ public class CarWashState extends SimState {
 		if (notFull == false) {
 			this.numRejected++;
 		}
+		else {
+			this.nrCarsWaited++;
+		}
+		currentCar = String.valueOf(car.getID());
+		currentEvent = "Arrive";
 		changed();
 	}
 	public Car getFirstCarInLine(){
 		Car first = carQueue.poll();
+		currentCar = String.valueOf(first.getID());
+		currentEvent = "Leave";
 		changed();
 		return first;
+	}
+	
+	public String getCurrentCar(){
+		return currentCar;
 	}
 	
 	public int getRejected(){
@@ -131,7 +155,7 @@ public class CarWashState extends SimState {
 	public boolean getHasStarted(){
 		return started;
 	}
-	public void setHasStarted(boolean s){
+	private void setHasStarted(){
 		this.started = true;
 		changed();
 	}
@@ -141,8 +165,16 @@ public class CarWashState extends SimState {
 		return stopped;
 	}
 	public void setHasStopped(){
+		this.currentCar = "-";
+		this.currentEvent = "Stop";
+		changed();
 		this.stopped = true;
 		changed();
+	}
+	
+	// Gets internal representation of current event(a String).
+	public String getCurrentEvent(){
+		return currentEvent;
 	}
 	
 	private void changed(){
