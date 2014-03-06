@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FIFO implements Queue {
+public class FIFO implements Queue<Car> {
 	private int maximum;
 	private LinkedList<Car> list = new LinkedList<Car>();
 	
@@ -13,8 +13,8 @@ public class FIFO implements Queue {
 		this.maximum = maximum;
 	}
 	
-	public boolean addAll(Collection c) {
-		if((c.size() + list.size()) > maximum){
+	public boolean addAll(Collection<? extends Car> c) {
+		if((c.size() + list.size()) > maximum || list.isEmpty()){
 			return false;
 		}
 		list.addAll(c);
@@ -32,88 +32,75 @@ public class FIFO implements Queue {
 		return false;
 	}
 
-	@Override
-	public boolean containsAll(Collection arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean containsAll(Collection<?> c) {
+		throw new UnsupportedOperationException("Unsupported operation.");
 	}
 
-	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return list.size() == 0;
 	}
 
 	public Iterator<Car> iterator() {
 		return list.listIterator();
 	}
 
-	@Override
-	public boolean remove(Object arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removeAll(Collection arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean retainAll(Collection arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object[] toArray(Object[] arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean add(Object e) {
-		if(list.add((Car)e)){
+	public boolean remove(Object o) {
+		if(!(list.isEmpty())){
+			list.remove(o);
 			return true;
 		}
 		return false;
 	}
 
-	public Object element() {
-		return list.element();
+	public boolean removeAll(Collection<?> c) {
+		throw new UnsupportedOperationException("Unsupported operation.");
+	}
+
+	public boolean retainAll(Collection<?> c) {
+		throw new UnsupportedOperationException("Unsupported operation.");
+	}
+
+	public int size() {
+		return list.size();
 	}
 	
-	// TODO: Fix typecasting.
-	public boolean offer(Object c) {
-		if (list.size() > maximum){
+	public Object[] toArray() {
+		return list.toArray();
+	}
+
+	public <T> T[] toArray(T[] t) {
+		return list.toArray(t);
+	}
+
+	public boolean add(Car c) {
+		if(list.add(c)){
+			return true;
+		}
+		return false;
+	}
+
+	public Car element() {
+		return list.isEmpty() ? null:list.element();
+	}
+	
+	public boolean offer(Car c) {
+		if (list.size() > maximum || list.isEmpty()){
 			return false;
 		}
-		list.add((Car) c);
+		list.add(c);
 		return true;
 	}
 
-	public Object peek() {
-		return list.peek();
+	public Car peek() {
+		return list.isEmpty() ? null:list.peek();
 	}
 
-	public Object poll() {
-		return list.poll();
+	public Car poll() {
+		return list.isEmpty() ? null:list.poll();
 	}
 
-	public Object remove() {
-		return list.remove();
+	public Car remove() {
+		return list.isEmpty() ? null:list.remove();
 	}
 
 }

@@ -1,9 +1,16 @@
 package carWashSimulator;
 
+import random.ExponentialRandomStream;
 import random.UniformRandomStream;
 import simulator.SimState;
 
 public class CarWashState extends SimState {
+	private final double[] FASTDISTR = {2.8, 4.6};
+	private final double[] SLOWDISTR = {3.6, 6.7};
+	private final double LAMBDA = 1.5;
+	private final int SEED = 1234;
+	private final int MAXCARQUEUE = 5;
+	
 	private int numRejected = 0;
 	private int numAvailableFastWashes = 2;
 	private int numAvailableSlowWashes = 2;
@@ -12,30 +19,54 @@ public class CarWashState extends SimState {
 	private double idleTime = 0;
 	private double queueTime = 0;
 	private double latestUpdateTime = 0;
-	private FIFO carQueue;
+	private boolean started = false;
+	private boolean stopped = false;
 	private CarFactory factory = new CarFactory();
+	private ExponentialRandomStream expRand = new ExponentialRandomStream(LAMBDA, SEED);
+	private FIFO carQueue;
 	
 	public CarWashState() {
-		this.fastWashTime = new UniformRandomStream(2.8, 4.6, 1234).next();
-		this.slowWashTime = new UniformRandomStream(3.5, 6.7, 1234).next();
+		this.fastWashTime = new UniformRandomStream(FASTDISTR[0], FASTDISTR[1], SEED).next();
+		this.slowWashTime = new UniformRandomStream(SLOWDISTR[0], SLOWDISTR[1], SEED).next();
+		changed();
+	}
+	
+	public double[] getFastWashTimeDistr(){
+		return FASTDISTR;
+	}
+	
+	public double[] getSlowWashTimeDistr(){
+		return SLOWDISTR;
+	}
+	
+	public double getLambda(){
+		return LAMBDA;
+	}
+	
+	public int getSeed(){
+		return SEED;
 	}
 	
 	public int getRejected(){
 		return numRejected;
 	}
 	
-	/**
-	 * Work in progress. Returns the first car in the queue and then removes it.
-	 * @return
-	 */
+	public int getMaxCarQueue(){
+		return MAXCARQUEUE;
+	}
+	
 	public Car getFirstCarInLine(){
-		return (Car)carQueue.poll();
+		Car first = carQueue.poll();
+		changed();
+		return first;
 	}
 	
 	public void addCarToLine(Car car){
-		if (carQueue.offer(car) == false) {
+		boolean notFull = carQueue.offer(car);
+		if (notFull == false) {
 			this.numRejected++;
 		}
+		changed();
 	}
 	
 	public int getAvailableFastWashes(){
@@ -74,7 +105,39 @@ public class CarWashState extends SimState {
 		return this.latestUpdateTime;
 	}
 	
+	public int getCarQueueSize(){
+		return carQueue.size();
+	}
+	
 	public CarFactory getCarFactory(){
 		return this.factory;
+	}
+	
+	public double getNewArriveTime(){
+		this.latestUpdateTime += expRand.next();
+		return latestUpdateTime;
+	}
+	
+	public boolean getHasStarted(){
+		return started;
+	}
+	
+	public void setHasStarted(boolean s){
+		this.started = true;
+		changed();
+	}
+	
+	public boolean getHasStopped(){
+		return stopped;
+	}
+	
+	public void setHasStopped(){
+		this.stopped = true;
+		changed();
+	}
+	
+	private void changed(){
+		setChanged();
+		notifyObservers();
 	}
 }

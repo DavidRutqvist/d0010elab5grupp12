@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import simulator.Event;
 import simulator.Simulator;
+import simulator.StopEvent;
 
 public class MainSim {
 
@@ -12,7 +13,8 @@ public class MainSim {
 		CarWashState carState = new CarWashState();
 		CarWashView carView = new CarWashView(carState);
 		
-		//TODO: add initial events to ArrayList.
+		events.add(new CarWashStartEvent());
+		events.add(new StopEvent());
 		
 		new Simulator(carState, events, carView);
 		
