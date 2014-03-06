@@ -23,7 +23,7 @@ public class CarWashState extends SimState {
 	private boolean stopped = false;
 	private CarFactory factory = new CarFactory();
 	private ExponentialRandomStream expRand = new ExponentialRandomStream(LAMBDA, SEED);
-	private FIFO carQueue;
+	private FIFO carQueue = new FIFO(MAXCARQUEUE);
 	
 	public CarWashState() {
 		this.fastWashTime = new UniformRandomStream(FASTDISTR[0], FASTDISTR[1], SEED).next();
