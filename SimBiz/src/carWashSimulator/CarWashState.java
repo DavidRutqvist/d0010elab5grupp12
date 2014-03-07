@@ -37,7 +37,6 @@ public class CarWashState extends SimState {
 		this.fastWashTime = new UniformRandomStream(FASTDISTR[0], FASTDISTR[1], SEED).next();
 		this.slowWashTime = new UniformRandomStream(SLOWDISTR[0], SLOWDISTR[1], SEED).next();
 		changed();
-		setHasStarted();
 	}
 	
 	// Get constants.
@@ -155,7 +154,7 @@ public class CarWashState extends SimState {
 	public boolean getHasStarted(){
 		return started;
 	}
-	private void setHasStarted(){
+	public void setHasStarted(){
 		this.started = true;
 		changed();
 	}
