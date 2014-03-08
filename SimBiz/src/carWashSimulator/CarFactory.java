@@ -3,21 +3,20 @@ package carWashSimulator;
 import java.util.ArrayList;
 
 /**
- * An object representing a car factory that is able to create
- * new car objects.
+ * An object representing a car factory that is able to create new car objects.
  * @author Emil
  *
  */
 public class CarFactory {
+	private int counterID = 0;
 	private ArrayList<Car> cars = new ArrayList<Car>();
 	
 	/**
-	 * Creates a new car.
-	 * @param id the ID for the new car.
+	 * Creates a new car with counterID and then increments counterID.
 	 * @return the new car.
 	 */
-	public Car createNewCar(int id){
-		return new Car(id);
+	public Car createNewCar(){
+		return new Car(counterID++);
 	}
 	
 	/**
