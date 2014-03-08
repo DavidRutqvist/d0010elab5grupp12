@@ -21,9 +21,10 @@ public class ArriveEvent extends Event {
 			s.setAvailableSlowWashes(slowWashes-1);
 			s.addEvent(new LeaveEvent(priority + s.getSlowWashTime(), car, Washes.SLOW));
 		} else {
+			s.setQueueTime((priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
 			s.addCarToLine(car);
 		}
-		s.addEvent(new ArriveEvent(s.getNewArrivalTime(), s.createCar()));
+		s.addEvent(new ArriveEvent(s.getNewArrivalTime(), s.getCarFactory().createNewCar(s.getCarFactory().numberOfCarsCreated())));
 		s.setLatestUpdateTime(priority);
 	}
 	private void updateIdleTime() {

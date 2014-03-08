@@ -3,7 +3,7 @@ package simulator;
 import carWashSimulator.CarWashState;
 
 public class StopEvent extends Event {
-	StopEvent(double priority) {
+	public StopEvent(double priority) {
 		super(priority);
 	}
 
