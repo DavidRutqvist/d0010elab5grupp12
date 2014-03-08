@@ -23,14 +23,15 @@ public class LeaveEvent extends Event {
 		}
 		if (s.getCarQueueSize() > 0) {
 			if (fastWashes > 0) {
-				s.setQueueTime((priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
+				s.setQueueTime(s.getQueueTime() + (priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
 				s.addEvent(new LeaveEvent(priority + s.getFastWashTime(), s.getFirstCarInLine(), Washes.FAST));
 				s.setAvailableFastWashes(fastWashes-1);
 			} else {
-				s.setQueueTime((priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
+				s.setQueueTime(s.getQueueTime() + (priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
 				s.addEvent(new LeaveEvent(priority + s.getSlowWashTime(), s.getFirstCarInLine(), Washes.SLOW));
 				s.setAvailableSlowWashes(slowWashes-1);
 			}
 		}
+		s.setLatestUpdateTime(priority);
 	}
 }
