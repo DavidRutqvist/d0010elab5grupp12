@@ -2,7 +2,10 @@ package carWashSimulator;
 
 import random.ExponentialRandomStream;
 import random.UniformRandomStream;
+import simulator.Event;
 import simulator.SimState;
+import simulator.StartEvent;
+import simulator.StopEvent;
 
 /**
  * A state object keeping track of most of the information.
@@ -25,18 +28,18 @@ public class CarWashState extends SimState {
 	private double idleTime = 0.00;
 	private double queueTime = 0.00;
 	private double latestUpdateTime = 0.00;
-	private boolean started = false;
-	private boolean stopped = false;
 	private String currentCar = "-";
-	private String currentEvent = "Start";
+	private Event currentEvent;
 	private CarFactory factory = new CarFactory();
 	private ExponentialRandomStream expRand = new ExponentialRandomStream(LAMBDA, SEED);
 	private FIFO carQueue = new FIFO(MAXCARQUEUE);
 	
+	/**
+	 * Constructor, randomises the fast and slow wash times.
+	 */
 	public CarWashState() {
 		this.fastWashTime = new UniformRandomStream(FASTDISTR[0], FASTDISTR[1], SEED).next();
 		this.slowWashTime = new UniformRandomStream(SLOWDISTR[0], SLOWDISTR[1], SEED).next();
-		changed();
 	}
 	
 	// Get constants.
@@ -146,35 +149,17 @@ public class CarWashState extends SimState {
 		return this.latestUpdateTime += expRand.next();
 	}
 	
-	// Get/set started flag.
-	public boolean getHasStarted(){
-		return started;
-	}
-	public void setHasStarted(){
-		this.started = true;
-	}
-	
-	// Get/set stopped flag.
-	public boolean getHasStopped(){
-		return stopped;
-	}
-	public void setHasStopped(){
-		this.currentCar = "-";
-		this.stopped = true;
-		changed();
-	}
-	
-	// Get/set the current Event (represented by a String).
-	public String getCurrentCWSEvent(){
+	// Get/set the current Event.
+	public Event getCurrentCWSEvent(){
 		return currentEvent;
 	}
-	public void setCurrentCWSEvent(String event){
+	public void setCurrentCWSEvent(Event event){
 		this.currentEvent = event;
-		changed();
-	}
-	
-	private void changed(){
+		if (this.currentEvent instanceof StopEvent || this.currentEvent instanceof StartEvent){
+			this.currentCar = "-";
+		}
 		setChanged();
 		notifyObservers();
 	}
+
 }

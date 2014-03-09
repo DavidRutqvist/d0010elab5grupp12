@@ -3,6 +3,8 @@ package carWashSimulator;
 import java.util.Observable;
 
 import simulator.SimView;
+import simulator.StartEvent;
+import simulator.StopEvent;
 
 /**
  * A view that observes the state and prints changes to the console.
@@ -27,7 +29,7 @@ public class CarWashView extends SimView {
 	 */
 	public void update(Observable obs, Object obj) {
 		
-		if(!(state.getHasStarted())){
+		if((state.getCurrentCWSEvent() instanceof StartEvent)){
 			System.out.println("Fast machines: " + state.getAvailableFastWashes());
 			System.out.println("Slow machines: " + state.getAvailableSlowWashes());
 			System.out.println("Fast distribution: (" + state.getFastWashTimeDistr()[0] + ", " 
@@ -42,19 +44,17 @@ public class CarWashView extends SimView {
 			System.out.println("Time\tFast\tSLow\tId\tEvent\tIdleTime\tQueueTime\tQueueSize\tRejected");
 		}
 		
-		else{
-			System.out.print(state.getLatestUpdateTime() + "\t");
-			System.out.print(state.getAvailableFastWashes() + "\t");
-			System.out.print(state.getAvailableSlowWashes() + "\t");
-			System.out.print(state.getCurrentCar() + "\t");
-			System.out.print(state.getCurrentCWSEvent() + "\t");
-			System.out.print(state.getIdleTime() + "\t");
-			System.out.print(state.getQueueTime() + "\t");
-			System.out.print(state.getCarQueueSize()+ "\t");
-			System.out.println(state.getRejected() + "\t");	
-		}
+		System.out.print(state.getLatestUpdateTime() + "\t");
+		System.out.print(state.getAvailableFastWashes() + "\t");
+		System.out.print(state.getAvailableSlowWashes() + "\t");
+		System.out.print(state.getCurrentCar() + "\t");
+		System.out.print(state.getCurrentCWSEvent() + "\t");
+		System.out.print(state.getIdleTime() + "\t");
+		System.out.print(state.getQueueTime() + "\t");
+		System.out.print(state.getCarQueueSize()+ "\t");
+		System.out.println(state.getRejected() + "\t");	
 		
-		if(state.getHasStopped()){
+		if(state.getCurrentCWSEvent() instanceof StopEvent){
 			System.out.println("-----------------------------------");
 			System.out.println("Total idle machine time " + state.getIdleTime());
 			System.out.println("Total queueing time: " + state.getQueueTime());
