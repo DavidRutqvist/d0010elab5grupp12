@@ -26,6 +26,7 @@ public class ArriveEvent extends Event {
 		}
 		s.addEvent(new ArriveEvent(s.getNewArrivalTime(), s.getCarFactory().createNewCar()));
 		s.setLatestUpdateTime(priority);
+		s.setCurrentCWSEvent(this);
 	}
 	private void updateIdleTime() {
 		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
