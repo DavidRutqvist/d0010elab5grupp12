@@ -47,7 +47,7 @@ public class CarWashView extends SimView {
 			System.out.print(state.getAvailableFastWashes() + "\t");
 			System.out.print(state.getAvailableSlowWashes() + "\t");
 			System.out.print(state.getCurrentCar() + "\t");
-			System.out.print(state.getCurrentEvent() + "\t");
+			System.out.print(state.getCurrentCWSEvent() + "\t");
 			System.out.print(state.getIdleTime() + "\t");
 			System.out.print(state.getQueueTime() + "\t");
 			System.out.print(state.getCarQueueSize()+ "\t");

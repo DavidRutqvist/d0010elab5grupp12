@@ -107,14 +107,10 @@ public class CarWashState extends SimState {
 			this.nrCarsWaited++;
 		}
 		currentCar = String.valueOf(car.getID());
-		currentEvent = "Arrive";
-		changed();
 	}
 	public Car getFirstCarInLine(){
 		Car first = carQueue.poll();
 		currentCar = String.valueOf(first.getID());
-		currentEvent = "Leave";
-		changed();
 		return first;
 	}
 	
@@ -156,7 +152,6 @@ public class CarWashState extends SimState {
 	}
 	public void setHasStarted(){
 		this.started = true;
-		changed();
 	}
 	
 	// Get/set stopped flag.
@@ -165,15 +160,17 @@ public class CarWashState extends SimState {
 	}
 	public void setHasStopped(){
 		this.currentCar = "-";
-		this.currentEvent = "Stop";
-		changed();
 		this.stopped = true;
 		changed();
 	}
 	
-	// Gets internal representation of current event(a String).
-	public String getCurrentEvent(){
+	// Get/set the current Event (represented by a String).
+	public String getCurrentCWSEvent(){
 		return currentEvent;
+	}
+	public void setCurrentCWSEvent(String event){
+		this.currentEvent = event;
+		changed();
 	}
 	
 	private void changed(){
