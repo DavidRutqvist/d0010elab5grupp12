@@ -29,27 +29,35 @@ public class SortedSequence {
 	public void insertAndPush(Event ev)
 	{
 		//This algorithm supposes that the store is always ordered (which it will always be since it is declared private)
-		for(int i = 0; i < this.store.size(); i++)//Loops trough the sequence until the correct position is found (then calls break)
+		if(this.store.size() == 0)
 		{
-			boolean AtRightIndex = false;//Used since different sorting orders requires different operators
-			
-			if(this.ascending)
+			this.store.add(ev);
+		}
+		else
+		{
+			int numberOfItems = this.store.size();
+			for(int i = 0; i < numberOfItems; i++)//Loops trough the sequence until the correct position is found (then calls break)
 			{
-				AtRightIndex = (this.store.get(i).getPriority() > ev.getPriority());//Orders in ASCENDING order
-			}
-			else
-			{
-				AtRightIndex = (this.store.get(i).getPriority() < ev.getPriority());//Orders in DESCENDING order
-			}
-			
-			if(AtRightIndex)//If the correct position was found
-			{
-				this.store.add(i, ev);//Add at correct position
-				break;//Breaks the loop since there is no need to continue iterating over the following events
-			}
-			else if((i + 1) == this.store.size())//If we have iterated over the whole sequence and not found a correct position, insert at the end.
-			{
-				this.store.add(ev);//Adds event at the end of the list/sequence
+				boolean AtRightIndex = false;//Used since different sorting orders requires different operators
+				
+				if(this.ascending)
+				{
+					AtRightIndex = (this.store.get(i).getPriority() > ev.getPriority());//Orders in ASCENDING order
+				}
+				else
+				{
+					AtRightIndex = (this.store.get(i).getPriority() < ev.getPriority());//Orders in DESCENDING order
+				}
+				
+				if(AtRightIndex)//If the correct position was found
+				{
+					this.store.add(i, ev);//Add at correct position
+					break;//Breaks the loop since there is no need to continue iterating over the following events
+				}
+				else if((i + 1) == this.store.size())//If we have iterated over the whole sequence and not found a correct position, insert at the end.
+				{
+					this.store.add(ev);//Adds event at the end of the list/sequence
+				}
 			}
 		}
 	}
