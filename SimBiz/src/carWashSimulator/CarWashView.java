@@ -1,5 +1,6 @@
 package carWashSimulator;
 
+import java.text.DecimalFormat;
 import java.util.Observable;
 
 import simulator.SimView;
@@ -13,6 +14,8 @@ import simulator.StopEvent;
  */
 public class CarWashView extends SimView {
 	private CarWashState state;
+	private DecimalFormat twoDec = new DecimalFormat("#.##");
+	private String currentCWVEvent = "";
 	
 	/**
 	 * Constructor calling super constructor which adds this view as
@@ -44,21 +47,37 @@ public class CarWashView extends SimView {
 			System.out.println("Time\tFast\tSLow\tId\tEvent\tIdleTime\tQueueTime\tQueueSize\tRejected");
 		}
 		
-		System.out.print(state.getLatestUpdateTime() + "\t");
+		System.out.print(twoDec.format(state.getLatestUpdateTime()) + "\t");
 		System.out.print(state.getAvailableFastWashes() + "\t");
 		System.out.print(state.getAvailableSlowWashes() + "\t");
 		System.out.print(state.getCurrentCar() + "\t");
-		System.out.print(state.getCurrentCWSEvent() + "\t");
-		System.out.print(state.getIdleTime() + "\t");
-		System.out.print(state.getQueueTime() + "\t");
+		
+		// Gets a string corresponding to current event.
+		if (state.getCurrentCWSEvent() instanceof StartEvent){
+			currentCWVEvent = "Start";
+		}
+		if (state.getCurrentCWSEvent() instanceof StopEvent){
+			currentCWVEvent = "Stop";
+		}
+		if (state.getCurrentCWSEvent() instanceof ArriveEvent){
+			currentCWVEvent = "Arrive";
+		}
+		if (state.getCurrentCWSEvent() instanceof LeaveEvent){
+			currentCWVEvent = "Leave";
+		}
+		else { currentCWVEvent = "Unrecognised"; }
+		
+		System.out.print(currentCWVEvent + "\t");
+		System.out.print(twoDec.format(state.getIdleTime()) + "\t");
+		System.out.print(twoDec.format(state.getQueueTime()) + "\t");
 		System.out.print(state.getCarQueueSize()+ "\t");
 		System.out.println(state.getRejected() + "\t");	
 		
 		if(state.getCurrentCWSEvent() instanceof StopEvent){
 			System.out.println("-----------------------------------");
-			System.out.println("Total idle machine time " + state.getIdleTime());
-			System.out.println("Total queueing time: " + state.getQueueTime());
-			System.out.println("Mean queueing time: " + state.getMeanQueueTime());
+			System.out.println("Total idle machine time " + twoDec.format(state.getIdleTime()));
+			System.out.println("Total queueing time: " + twoDec.format(state.getQueueTime()));
+			System.out.println("Mean queueing time: " + twoDec.format(state.getMeanQueueTime()));
 			System.out.println("Rejected cars: " + state.getRejected());
 		}
 		

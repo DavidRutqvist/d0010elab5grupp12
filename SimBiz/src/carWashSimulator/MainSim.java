@@ -6,8 +6,18 @@ import simulator.Event;
 import simulator.Simulator;
 import simulator.StopEvent;
 
+/**
+ * A class containing the main method starting the program.
+ * @author Emil
+ *
+ */
 public class MainSim {
 
+	/**
+	 * The main method of the program, setting the initial parameters and starting the
+	 * simulator.
+	 * @param args is not used.
+	 */
 	public static void main(String[] args) {
 		final double STARTPRIORITY = 0;
 		final double STOPPRIORITY = 15;
