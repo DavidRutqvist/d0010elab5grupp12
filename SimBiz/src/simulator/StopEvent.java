@@ -8,6 +8,5 @@ public class StopEvent extends Event {
 	}
 
 	public void execute() {
-		CarWashState s = ((CarWashState) state);
 	}
 }

@@ -7,11 +7,20 @@ public class ArriveEvent extends Event {
 	private CarWashState s = ((CarWashState) state);
 	private int slowWashes = s.getAvailableSlowWashes();
 	private int fastWashes = s.getAvailableFastWashes();
+	/**
+	 * 
+	 * @param priority The time at which the LeaveEvent occurs.
+	 * @param car The car that enters the car wash.
+	 */
 	public ArriveEvent(double priority, Car car) {
 		super(priority);
 		this.car = car;
 	}
-	
+	/**
+	 * If there are available washes the car enters the wash and it's LeaveEvent is added to the EventQueue,
+	 * otherwise the car is put in the waiting line.
+	 * Updates the washes' idle time and the total queue time for the cars.
+	 */
 	public void execute() {
 		updateIdleTime();
 		if (fastWashes != 0) {

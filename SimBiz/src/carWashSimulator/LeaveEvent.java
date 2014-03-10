@@ -8,12 +8,22 @@ public class LeaveEvent extends Event {
 	private CarWashState s = (CarWashState) state;
 	private int fastWashes = s.getAvailableFastWashes();
 	private int slowWashes = s.getAvailableSlowWashes();
+	/**
+	 * 
+	 * @param priority The time at which the LeaveEvent occurs.
+	 * @param car The car that leaves the car wash.
+	 * @param wash The wash that the car leaves (fast or slow).
+	 */
 	LeaveEvent(double priority, Car car, Washes wash) {
 		super(priority);
 		this.car = car;
 		this.wash = wash;
-	}
-
+	} 
+	/**
+	 * If the queue is not empty, the first car in line is removed from the queue
+	 * and the LeaveEvent for that car is added to the EventQueue.
+	 * Updates the washes' idle time and the total queue time for the cars.
+	 */
 	public void execute() {
 		updateIdleTime();
 		if (s.getCarQueueSize() > 0) {
