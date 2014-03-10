@@ -19,6 +19,7 @@ public class SortedSequence {
 	public SortedSequence(boolean ascending)
 	{
 		this.ascending = ascending;
+		this.store = new ArrayList<Event>();
 	}
 	
 	/**
