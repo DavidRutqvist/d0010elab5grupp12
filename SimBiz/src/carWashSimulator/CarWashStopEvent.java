@@ -13,11 +13,8 @@ public class CarWashStopEvent extends StopEvent {
 	 * Updates the washes' idle time and the total queue time for the cars.
 	 */
 	public void execute(){
-		updateIdleTime();
+		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
 		s.setQueueTime(s.getQueueTime() + (priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
 		s.setCurrentCWSEvent(this);
-	}
-	private void updateIdleTime() {
-		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
 	}
 }

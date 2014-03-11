@@ -25,7 +25,7 @@ public class LeaveEvent extends Event {
 	 * Updates the washes' idle time and the total queue time for the cars.
 	 */
 	public void execute() {
-		updateIdleTime();
+		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
 		if (s.getCarQueueSize() > 0) {
 			if (wash == Washes.FAST) {
 				s.setQueueTime(s.getQueueTime() + (priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
@@ -43,8 +43,5 @@ public class LeaveEvent extends Event {
 		}
 		s.setLatestUpdateTime(priority);
 		s.setCurrentCWSEvent(this);
-	}
-	private void updateIdleTime() {
-		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
 	}
 }

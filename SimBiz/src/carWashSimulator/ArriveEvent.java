@@ -22,7 +22,7 @@ public class ArriveEvent extends Event {
 	 * Updates the washes' idle time and the total queue time for the cars.
 	 */
 	public void execute() {
-		updateIdleTime();
+		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
 		if (fastWashes != 0) {
 			s.setAvailableFastWashes(fastWashes-1);
 			s.addEvent(new LeaveEvent(priority + s.getFastWashTime(), car, Washes.FAST));
@@ -36,8 +36,5 @@ public class ArriveEvent extends Event {
 		s.addEvent(new ArriveEvent(s.getNewArrivalTime(), s.getCarFactory().createNewCar()));
 		s.setLatestUpdateTime(priority);
 		s.setCurrentCWSEvent(this);
-	}
-	private void updateIdleTime() {
-		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
 	}
 }
