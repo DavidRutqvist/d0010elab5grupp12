@@ -33,12 +33,14 @@ public class CarWashView extends SimView {
 		if((state.getCurrentCWSEvent() instanceof CarWashStartEvent)){
 			System.out.println("Fast machines: " + state.getAvailableFastWashes());
 			System.out.println("Slow machines: " + state.getAvailableSlowWashes());
-			System.out.println("Fast distribution: (" + state.getFastWashTimeDistr()[0] + ", " 
-					+ state.getFastWashTimeDistr()[1] + ")");
-			System.out.println("Slow distribution: (" + state.getSlowWashTimeDistr()[0] + ", " 
-					+ state.getSlowWashTimeDistr()[1] + ")");
+			System.out.print("Fast distribution: (");
+			System.out.printf("%.1f%s%.1f%s%n", state.getFastWashTimeDistr()[0], ", ",
+					state.getFastWashTimeDistr()[1], ")");
+			System.out.print("Slow distribution: (");
+			System.out.printf("%.1f%s%.1f%s%n", state.getSlowWashTimeDistr()[0], ", ",
+					state.getSlowWashTimeDistr()[1], ")");
 			System.out.print("Exponential distribution with lambda = ");
-			System.out.printf("%-1.1f %n", state.getLambda());
+			System.out.printf("%.1f %n", state.getLambda());
 			System.out.println("Seed = " + state.getSeed());
 			System.out.println("Max Queue size = " + state.getMaxCarQueue());
 			System.out.println("----------------------------------------");
@@ -74,11 +76,11 @@ public class CarWashView extends SimView {
 		if(state.getCurrentCWSEvent() instanceof CarWashStopEvent){
 			System.out.println("-----------------------------------");
 			System.out.print("Total idle machine time: ");
-			System.out.printf("%-1.2f %n", state.getIdleTime());
+			System.out.printf("%.2f %n", state.getIdleTime());
 			System.out.print("Total queueing time: ");
-			System.out.printf("%-1.2f %n", state.getQueueTime());
+			System.out.printf("%.2f %n", state.getQueueTime());
 			System.out.print("Mean queueing time: ");
-			System.out.printf("%-1.2f %n", state.getMeanQueueTime());
+			System.out.printf("%.2f %n", state.getMeanQueueTime());
 			System.out.println("Rejected cars: " + state.getRejected());
 		}
 		

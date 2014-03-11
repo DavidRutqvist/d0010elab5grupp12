@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import simulator.Event;
 import simulator.Simulator;
-import simulator.StopEvent;
 
 /**
  * A class containing the main method starting the program.
