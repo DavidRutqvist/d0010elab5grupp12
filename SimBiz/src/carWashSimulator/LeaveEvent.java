@@ -16,6 +16,9 @@ public class LeaveEvent extends Event {
 		this.car = car;
 		this.wash = wash;
 	} 
+	public Car getCar() {
+		return car;
+	}
 	/**
 	 * If the queue is not empty, the first car in line is removed from the queue
 	 * and the LeaveEvent for that car is added to the EventQueue.
