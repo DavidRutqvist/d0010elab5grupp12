@@ -14,6 +14,9 @@ public class ArriveEvent extends Event {
 		super(priority);
 		this.car = car;
 	}
+	public Car getCar() {
+		return car;
+	}
 	/**
 	 * If there are available washes the car enters the wash and it's LeaveEvent is added to the EventQueue,
 	 * otherwise the car is put in the waiting line.
