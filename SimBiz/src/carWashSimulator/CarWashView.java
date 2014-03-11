@@ -1,12 +1,9 @@
 package carWashSimulator;
 
 import java.text.DecimalFormat;
-import java.util.Formatter;
 import java.util.Observable;
 
 import simulator.SimView;
-import simulator.StartEvent;
-import simulator.StopEvent;
 
 /**
  * A view that observes the state and prints changes to the console.
@@ -16,11 +13,8 @@ import simulator.StopEvent;
 public class CarWashView extends SimView {
 	private CarWashState state;
 	private DecimalFormat twoDec = new DecimalFormat("#.##");
-	private Formatter fmt = new Formatter();
 	private String currentCWVEvent = "";
 	private String currentCWVCar = "";
-	private int CMVAvailableFastWashes;
-	private int CMVAvailableSlowWashes;
 	
 	/**
 	 * Constructor calling super constructor which adds this view as
@@ -53,10 +47,6 @@ public class CarWashView extends SimView {
 					"Time", "Fast", "Slow", "Id", "Event", "IdleTime", "QueueTime", "QueueSize", "Rejected");
 		}
 		
-		System.out.print(twoDec.format(state.getLatestUpdateTime()) + "\t");
-		System.out.print(state.getAvailableFastWashes() + "\t");
-		System.out.print(state.getAvailableSlowWashes() + "\t");
-		
 		// Gets a string corresponding to current event.
 		if (state.getCurrentCWSEvent() instanceof CarWashStartEvent){
 			currentCWVEvent = "Start";
@@ -76,12 +66,9 @@ public class CarWashView extends SimView {
 		}
 		else { currentCWVEvent = "Unrecognised"; }
 		
-		System.out.print(currentCWVCar + "\t");
-		System.out.print(currentCWVEvent + "\t");
-		System.out.print(twoDec.format(state.getIdleTime()) + "\t");
-		System.out.print(twoDec.format(state.getQueueTime()) + "\t");
-		System.out.print(state.getCarQueueSize()+ "\t");
-		System.out.println(state.getRejected() + "\t");	
+		System.out.printf("%-10.2f %-10.10s %-10.10s %-10.10s %-10.10s %-10.2f %-10.2f %-10.10s %-10.10s%n",
+				state.getLatestUpdateTime(), state.getAvailableFastWashes(), state.getAvailableSlowWashes(), currentCWVCar,
+				currentCWVEvent, state.getIdleTime(), state.getQueueTime(), state.getCarQueueSize(), state.getRejected());
 		
 		if(state.getCurrentCWSEvent() instanceof CarWashStopEvent){
 			System.out.println("-----------------------------------");
