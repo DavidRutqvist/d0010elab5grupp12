@@ -1,6 +1,7 @@
 package carWashSimulator;
 
 import java.text.DecimalFormat;
+import java.util.Formatter;
 import java.util.Observable;
 
 import simulator.SimView;
@@ -15,6 +16,7 @@ import simulator.StopEvent;
 public class CarWashView extends SimView {
 	private CarWashState state;
 	private DecimalFormat twoDec = new DecimalFormat("#.##");
+	private Formatter fmt = new Formatter();
 	private String currentCWVEvent = "";
 	
 	/**
@@ -32,7 +34,7 @@ public class CarWashView extends SimView {
 	 */
 	public void update(Observable obs, Object obj) {
 		
-		if((state.getCurrentCWSEvent() instanceof StartEvent)){
+		if((state.getCurrentCWSEvent() instanceof CarWashStartEvent)){
 			System.out.println("Fast machines: " + state.getAvailableFastWashes());
 			System.out.println("Slow machines: " + state.getAvailableSlowWashes());
 			System.out.println("Fast distribution: (" + state.getFastWashTimeDistr()[0] + ", " 
@@ -53,16 +55,16 @@ public class CarWashView extends SimView {
 		System.out.print(state.getCurrentCar() + "\t");
 		
 		// Gets a string corresponding to current event.
-		if (state.getCurrentCWSEvent() instanceof StartEvent){
+		if (state.getCurrentCWSEvent() instanceof CarWashStartEvent){
 			currentCWVEvent = "Start";
 		}
-		if (state.getCurrentCWSEvent() instanceof StopEvent){
+		else if (state.getCurrentCWSEvent() instanceof CarWashStopEvent){
 			currentCWVEvent = "Stop";
 		}
-		if (state.getCurrentCWSEvent() instanceof ArriveEvent){
+		else if (state.getCurrentCWSEvent() instanceof ArriveEvent){
 			currentCWVEvent = "Arrive";
 		}
-		if (state.getCurrentCWSEvent() instanceof LeaveEvent){
+		else if (state.getCurrentCWSEvent() instanceof LeaveEvent){
 			currentCWVEvent = "Leave";
 		}
 		else { currentCWVEvent = "Unrecognised"; }
@@ -73,7 +75,7 @@ public class CarWashView extends SimView {
 		System.out.print(state.getCarQueueSize()+ "\t");
 		System.out.println(state.getRejected() + "\t");	
 		
-		if(state.getCurrentCWSEvent() instanceof StopEvent){
+		if(state.getCurrentCWSEvent() instanceof CarWashStopEvent){
 			System.out.println("-----------------------------------");
 			System.out.println("Total idle machine time " + twoDec.format(state.getIdleTime()));
 			System.out.println("Total queueing time: " + twoDec.format(state.getQueueTime()));

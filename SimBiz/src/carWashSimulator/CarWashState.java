@@ -17,7 +17,7 @@ public class CarWashState extends SimState {
 	private final double[] SLOWDISTR = {3.6, 6.7};
 	private final double LAMBDA = 1.5;
 	private final int SEED = 1234;
-	private final int MAXCARQUEUE = 5;
+	private final int MAXCARQUEUE = 7;
 	
 	private int numRejected = 0;
 	private int numAvailableFastWashes = 2;
@@ -166,14 +166,12 @@ public class CarWashState extends SimState {
 		else {
 			this.nrCarsWaited++;
 		}
-		currentCar = String.valueOf(car.getID());
 	}
 	/**
 	 * @return the first car in the car queue.
 	 */
 	public Car getFirstCarInLine(){
 		Car first = carQueue.poll();
-		currentCar = String.valueOf(first.getID());
 		return first;
 	}
 	
@@ -182,6 +180,13 @@ public class CarWashState extends SimState {
 	 */
 	public String getCurrentCar(){
 		return currentCar;
+	}
+	/**
+	 * Sets the car the event handled.
+	 * @param c current car.
+	 */
+	public void setCurrentCar(Car c){
+		this.currentCar = String.valueOf(c.getID());
 	}
 	
 	/**

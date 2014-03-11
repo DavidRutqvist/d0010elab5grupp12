@@ -148,7 +148,7 @@ public class FIFO implements Queue<Car> {
 	 * Offers a Car to add to the queue. Returns false if queue is empty.
 	 */
 	public boolean offer(Car c) {
-		if (isFull() || list.isEmpty()){
+		if (isFull()){
 			return false;
 		}
 		list.offer(c);

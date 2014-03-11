@@ -27,7 +27,7 @@ public class MainSim {
 		CarWashView carView = new CarWashView(carState);
 		
 		events.add(new CarWashStartEvent(STARTPRIORITY));
-		events.add(new StopEvent(STOPPRIORITY));
+		events.add(new CarWashStopEvent(STOPPRIORITY));
 		
 		new Simulator(carState, events, carView);
 		
