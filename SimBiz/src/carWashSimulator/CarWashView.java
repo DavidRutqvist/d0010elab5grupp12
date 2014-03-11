@@ -19,6 +19,8 @@ public class CarWashView extends SimView {
 	private Formatter fmt = new Formatter();
 	private String currentCWVEvent = "";
 	private String currentCWVCar = "";
+	private int CMVAvailableFastWashes;
+	private int CMVAvailableSlowWashes;
 	
 	/**
 	 * Constructor calling super constructor which adds this view as
@@ -47,7 +49,8 @@ public class CarWashView extends SimView {
 			System.out.println("Seed = " + state.getSeed());
 			System.out.println("Max Queue size = " + state.getMaxCarQueue());
 			System.out.println("----------------------------------------");
-			System.out.println("Time\tFast\tSLow\tId\tEvent\tIdleTime\tQueueTime\tQueueSize\tRejected");
+			System.out.printf("%-10.10s %-10.10s %-10.10s %-10.10s %-10.10s %-10.10s %-10.10s %-10.10s %-10.10s%n",
+					"Time", "Fast", "Slow", "Id", "Event", "IdleTime", "QueueTime", "QueueSize", "Rejected");
 		}
 		
 		System.out.print(twoDec.format(state.getLatestUpdateTime()) + "\t");
