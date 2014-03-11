@@ -18,6 +18,7 @@ public class CarWashView extends SimView {
 	private DecimalFormat twoDec = new DecimalFormat("#.##");
 	private Formatter fmt = new Formatter();
 	private String currentCWVEvent = "";
+	private String currentCWVCar = "";
 	
 	/**
 	 * Constructor calling super constructor which adds this view as
@@ -52,23 +53,27 @@ public class CarWashView extends SimView {
 		System.out.print(twoDec.format(state.getLatestUpdateTime()) + "\t");
 		System.out.print(state.getAvailableFastWashes() + "\t");
 		System.out.print(state.getAvailableSlowWashes() + "\t");
-		System.out.print(state.getCurrentCar() + "\t");
 		
 		// Gets a string corresponding to current event.
 		if (state.getCurrentCWSEvent() instanceof CarWashStartEvent){
 			currentCWVEvent = "Start";
+			currentCWVCar = "-";
 		}
 		else if (state.getCurrentCWSEvent() instanceof CarWashStopEvent){
 			currentCWVEvent = "Stop";
+			currentCWVCar = "-";
 		}
 		else if (state.getCurrentCWSEvent() instanceof ArriveEvent){
 			currentCWVEvent = "Arrive";
+			currentCWVCar = String.valueOf(((ArriveEvent) state.getCurrentCWSEvent()).getCar().getID());
 		}
 		else if (state.getCurrentCWSEvent() instanceof LeaveEvent){
 			currentCWVEvent = "Leave";
+			currentCWVCar = String.valueOf(((LeaveEvent) state.getCurrentCWSEvent()).getCar().getID());
 		}
 		else { currentCWVEvent = "Unrecognised"; }
 		
+		System.out.print(currentCWVCar + "\t");
 		System.out.print(currentCWVEvent + "\t");
 		System.out.print(twoDec.format(state.getIdleTime()) + "\t");
 		System.out.print(twoDec.format(state.getQueueTime()) + "\t");

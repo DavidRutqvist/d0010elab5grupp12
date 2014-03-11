@@ -4,8 +4,6 @@ import random.ExponentialRandomStream;
 import random.UniformRandomStream;
 import simulator.Event;
 import simulator.SimState;
-import simulator.StartEvent;
-import simulator.StopEvent;
 
 /**
  * A state object keeping track of most of the information.
@@ -28,7 +26,6 @@ public class CarWashState extends SimState {
 	private double idleTime = 0.00;
 	private double queueTime = 0.00;
 	private double latestUpdateTime = 0.00;
-	private String currentCar = "-";
 	private Event currentEvent;
 	private CarFactory factory = new CarFactory();
 	private ExponentialRandomStream expRand = new ExponentialRandomStream(LAMBDA, SEED);
@@ -176,20 +173,6 @@ public class CarWashState extends SimState {
 	}
 	
 	/**
-	 * @return a String of the current cars ID.
-	 */
-	public String getCurrentCar(){
-		return currentCar;
-	}
-	/**
-	 * Sets the car the event handled.
-	 * @param c current car.
-	 */
-	public void setCurrentCar(Car c){
-		this.currentCar = String.valueOf(c.getID());
-	}
-	
-	/**
 	 * @return number of cars that have been rejected.
 	 */
 	public int getRejected(){
@@ -246,9 +229,6 @@ public class CarWashState extends SimState {
 	 */
 	public void setCurrentCWSEvent(Event event){
 		this.currentEvent = event;
-		if (this.currentEvent instanceof StopEvent || this.currentEvent instanceof StartEvent){
-			this.currentCar = "-";
-		}
 		setChanged();
 		notifyObservers();
 	}
