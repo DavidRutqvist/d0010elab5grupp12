@@ -15,10 +15,10 @@ public class CarWashStartEvent extends StartEvent {
 	 */
 	public void execute() {
 		CarWashState s = ((CarWashState) state);
+		s.setLatestUpdateTime(priority);
 		ArriveEvent e = new ArriveEvent(s.getNewArrivalTime(), s.getCarFactory().createNewCar());
 		e.setState(s);
 		s.addEvent(e);
-		s.setLatestUpdateTime(priority);
 		s.setCurrentCWSEvent(this);
 	}
 }
