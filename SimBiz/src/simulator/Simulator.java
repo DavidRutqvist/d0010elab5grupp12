@@ -26,6 +26,7 @@ public class Simulator {
 		this.state = state;
 		this.view = view;
 		this.queue = new EventQueue();
+		this.state.setQueue(this.queue);
 		
 		//Loop trough and add supplied events
 		for(Event ev : events)
