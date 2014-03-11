@@ -21,6 +21,7 @@ public class CarWashStopEvent extends StopEvent {
 		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
 		//Update queue time.
 		s.setQueueTime(s.getQueueTime() + (priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
+		s.setLatestUpdateTime(priority);
 		s.setCurrentCWSEvent(this);
 	}
 }
