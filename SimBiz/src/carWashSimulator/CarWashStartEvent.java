@@ -18,6 +18,7 @@ public class CarWashStartEvent extends StartEvent {
 		ArriveEvent e = new ArriveEvent(s.getNewArrivalTime(), s.getCarFactory().createNewCar());
 		e.setState(s);
 		s.addEvent(e);
+		s.setLatestUpdateTime(priority);
 		s.setCurrentCWSEvent(this);
 	}
 }
