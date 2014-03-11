@@ -24,7 +24,6 @@ public class ArriveEvent extends Event {
 	 */
 	public void execute() {
 		CarWashState s = ((CarWashState) state);
-		s.setLatestUpdateTime(priority);
 		int slowWashes = s.getAvailableSlowWashes();
 		int fastWashes = s.getAvailableFastWashes();
 		//Update the idle time.
@@ -52,6 +51,7 @@ public class ArriveEvent extends Event {
 			s.addCarToLine(car);
 		}
 		//Add the next ArriveEvent to the EventQueue.
+		s.setLatestUpdateTime(priority);
 		ArriveEvent e = new ArriveEvent(s.getNewArrivalTime(), s.getCarFactory().createNewCar());
 		e.setState(s);
 		s.addEvent(e);
