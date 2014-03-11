@@ -36,10 +36,14 @@ public class LeaveEvent extends Event {
 				//Update queue time.
 				s.setQueueTime(s.getQueueTime() + (priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
 				//Add the car's LeaveEvent.
-				s.addEvent(new LeaveEvent(priority + s.getFastWashTime(), s.getFirstCarInLine(), Washes.FAST));
+				LeaveEvent e = new LeaveEvent(priority + s.getFastWashTime(), car, Washes.FAST);
+				e.setState(s);
+				s.addEvent(e);
 			} else {
 				s.setQueueTime(s.getQueueTime() + (priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
-				s.addEvent(new LeaveEvent(priority + s.getSlowWashTime(), s.getFirstCarInLine(), Washes.SLOW));
+				LeaveEvent e = new LeaveEvent(priority + s.getSlowWashTime(), car, Washes.SLOW);
+				e.setState(s);
+				s.addEvent(e);
 			}
 		} 
 		//If there are no cars in line, increase the number of available washes.
