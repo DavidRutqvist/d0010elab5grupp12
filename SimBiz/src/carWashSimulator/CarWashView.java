@@ -1,6 +1,5 @@
 package carWashSimulator;
 
-import java.text.DecimalFormat;
 import java.util.Observable;
 
 import simulator.SimView;
@@ -12,7 +11,6 @@ import simulator.SimView;
  */
 public class CarWashView extends SimView {
 	private CarWashState state;
-	private DecimalFormat twoDec = new DecimalFormat("#.##");
 	private String currentCWVEvent = "";
 	private String currentCWVCar = "";
 	
@@ -31,15 +29,16 @@ public class CarWashView extends SimView {
 	 */
 	public void update(Observable obs, Object obj) {
 		
+		//When StartEvent
 		if((state.getCurrentCWSEvent() instanceof CarWashStartEvent)){
 			System.out.println("Fast machines: " + state.getAvailableFastWashes());
 			System.out.println("Slow machines: " + state.getAvailableSlowWashes());
 			System.out.println("Fast distribution: (" + state.getFastWashTimeDistr()[0] + ", " 
 					+ state.getFastWashTimeDistr()[1] + ")");
-			System.out.println("Fast distribution: (" + state.getSlowWashTimeDistr()[0] + ", " 
+			System.out.println("Slow distribution: (" + state.getSlowWashTimeDistr()[0] + ", " 
 					+ state.getSlowWashTimeDistr()[1] + ")");
-			System.out.println("Exponential distribution with lambda = "
-					+ state.getLambda());
+			System.out.print("Exponential distribution with lambda = ");
+			System.out.printf("%-1.1f %n", state.getLambda());
 			System.out.println("Seed = " + state.getSeed());
 			System.out.println("Max Queue size = " + state.getMaxCarQueue());
 			System.out.println("----------------------------------------");
@@ -66,15 +65,20 @@ public class CarWashView extends SimView {
 		}
 		else { currentCWVEvent = "Unrecognised"; }
 		
+		//Printing the data
 		System.out.printf("%-10.2f %-10.10s %-10.10s %-10.10s %-10.10s %-10.2f %-10.2f %-10.10s %-10.10s%n",
 				state.getLatestUpdateTime(), state.getAvailableFastWashes(), state.getAvailableSlowWashes(), currentCWVCar,
 				currentCWVEvent, state.getIdleTime(), state.getQueueTime(), state.getCarQueueSize(), state.getRejected());
 		
+		// When StopEvent
 		if(state.getCurrentCWSEvent() instanceof CarWashStopEvent){
 			System.out.println("-----------------------------------");
-			System.out.println("Total idle machine time " + twoDec.format(state.getIdleTime()));
-			System.out.println("Total queueing time: " + twoDec.format(state.getQueueTime()));
-			System.out.println("Mean queueing time: " + twoDec.format(state.getMeanQueueTime()));
+			System.out.print("Total idle machine time: ");
+			System.out.printf("%-1.2f %n", state.getIdleTime());
+			System.out.print("Total queueing time: ");
+			System.out.printf("%-1.2f %n", state.getQueueTime());
+			System.out.print("Mean queueing time: ");
+			System.out.printf("%-1.2f %n", state.getMeanQueueTime());
 			System.out.println("Rejected cars: " + state.getRejected());
 		}
 		
