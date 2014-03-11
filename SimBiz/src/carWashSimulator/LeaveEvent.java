@@ -4,7 +4,7 @@ import simulator.Event;
 
 public class LeaveEvent extends Event {
 	private Car car;
-	private Washes wash;
+	private Washes wash; //Fast or slow wash.
 	/**
 	 * 
 	 * @param priority The time at which the LeaveEvent occurs.
@@ -25,16 +25,22 @@ public class LeaveEvent extends Event {
 		CarWashState s = (CarWashState) state;
 		int fastWashes = s.getAvailableFastWashes();
 		int slowWashes = s.getAvailableSlowWashes();
+		//Update idle time.
 		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
+		//Puts the first car in line in the wash a car just left.
 		if (s.getCarQueueSize() > 0) {
 			if (wash == Washes.FAST) {
+				//Update queue time.
 				s.setQueueTime(s.getQueueTime() + (priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
+				//Add the car's LeaveEvent.
 				s.addEvent(new LeaveEvent(priority + s.getFastWashTime(), s.getFirstCarInLine(), Washes.FAST));
 			} else {
 				s.setQueueTime(s.getQueueTime() + (priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
 				s.addEvent(new LeaveEvent(priority + s.getSlowWashTime(), s.getFirstCarInLine(), Washes.SLOW));
 			}
-		} else {
+		} 
+		//If there are no cars in line, increase the number of available washes.
+		else {
 			if (wash == Washes.FAST) {
 				s.setAvailableFastWashes(fastWashes+1);
 			} else {

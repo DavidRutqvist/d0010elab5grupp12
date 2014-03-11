@@ -3,6 +3,10 @@ package carWashSimulator;
 import simulator.StartEvent;
 
 public class CarWashStartEvent extends StartEvent {
+	/**
+	 * 
+	 * @param priority The time at which the LeaveEvent occurs (0).
+	 */
 	public CarWashStartEvent(double priority) {
 		super(priority);
 	}
