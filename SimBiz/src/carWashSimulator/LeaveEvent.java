@@ -5,9 +5,6 @@ import simulator.Event;
 public class LeaveEvent extends Event {
 	private Car car;
 	private Washes wash;
-	private CarWashState s = (CarWashState) state;
-	private int fastWashes = s.getAvailableFastWashes();
-	private int slowWashes = s.getAvailableSlowWashes();
 	/**
 	 * 
 	 * @param priority The time at which the LeaveEvent occurs.
@@ -25,6 +22,9 @@ public class LeaveEvent extends Event {
 	 * Updates the washes' idle time and the total queue time for the cars.
 	 */
 	public void execute() {
+		CarWashState s = (CarWashState) state;
+		int fastWashes = s.getAvailableFastWashes();
+		int slowWashes = s.getAvailableSlowWashes();
 		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
 		if (s.getCarQueueSize() > 0) {
 			if (wash == Washes.FAST) {

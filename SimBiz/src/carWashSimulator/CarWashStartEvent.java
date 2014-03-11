@@ -11,6 +11,8 @@ public class CarWashStartEvent extends StartEvent {
 	 */
 	public void execute() {
 		CarWashState s = ((CarWashState) state);
-		s.addEvent(new ArriveEvent(s.getNewArrivalTime(), s.getCarFactory().createNewCar()));
+		ArriveEvent e = new ArriveEvent(s.getNewArrivalTime(), s.getCarFactory().createNewCar());
+		e.setState(s);
+		s.addEvent(e);
 	}
 }
