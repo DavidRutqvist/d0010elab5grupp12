@@ -12,10 +12,10 @@ import simulator.SimState;
  */
 public class CarWashState extends SimState {
 	private final double[] FASTDISTR = {2.8, 4.6};
-	private final double[] SLOWDISTR = {3.6, 6.7};
-	private final double LAMBDA = 1.5;
+	private final double[] SLOWDISTR = {3.5, 6.7};
+	private final double LAMBDA = 2.0;
 	private final int SEED = 1234;
-	private final int MAXCARQUEUE = 7;
+	private final int MAXCARQUEUE = 5;
 	
 	private int numRejected = 0;
 	private int numAvailableFastWashes = 2;
