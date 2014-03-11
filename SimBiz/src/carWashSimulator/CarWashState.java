@@ -213,7 +213,7 @@ public class CarWashState extends SimState {
 	 * @return the next arrival time.
 	 */
 	public double getNewArrivalTime(){
-		return this.latestUpdateTime += expRand.next();
+		return this.latestUpdateTime + expRand.next();
 	}
 	
 	// Get/set the current Event.
