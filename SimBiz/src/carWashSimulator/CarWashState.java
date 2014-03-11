@@ -21,8 +21,10 @@ public class CarWashState extends SimState {
 	private int numAvailableFastWashes = 2;
 	private int numAvailableSlowWashes = 2;
 	private int nrCarsWaited = 0;
-	private double fastWashTime = 0.0;
-	private double slowWashTime = 0.0;
+//	private double fastWashTime = 0.0;
+//	private double slowWashTime = 0.0;
+	private UniformRandomStream fastStream = new UniformRandomStream(FASTDISTR[0], FASTDISTR[1], SEED);
+	private UniformRandomStream slowStream = new UniformRandomStream(SLOWDISTR[0], SLOWDISTR[1], SEED);
 	private double idleTime = 0.00;
 	private double queueTime = 0.00;
 	private double latestUpdateTime = 0.00;
@@ -35,8 +37,8 @@ public class CarWashState extends SimState {
 	 * Constructor, randomises the fast and slow wash times.
 	 */
 	public CarWashState() {
-		this.fastWashTime = new UniformRandomStream(FASTDISTR[0], FASTDISTR[1], SEED).next();
-		this.slowWashTime = new UniformRandomStream(SLOWDISTR[0], SLOWDISTR[1], SEED).next();
+//		this.fastWashTime = new UniformRandomStream(FASTDISTR[0], FASTDISTR[1], SEED).next();
+//		this.slowWashTime = new UniformRandomStream(SLOWDISTR[0], SLOWDISTR[1], SEED).next();
 	}
 	
 	// Get constants.
@@ -104,13 +106,15 @@ public class CarWashState extends SimState {
 	 * @return time it takes for a fast wash.
 	 */
 	public double getFastWashTime(){
-		return this.fastWashTime;
+		//return this.fastWashTime;
+		return this.fastStream.next();
 	}
 	/**
 	 * @return time it takes for a slow wash.
 	 */
 	public double getSlowWashTime(){
-		return this.slowWashTime;
+		//return this.slowWashTime;
+		return this.slowStream.next();
 	}
 	
 	// Get/set idle time.
