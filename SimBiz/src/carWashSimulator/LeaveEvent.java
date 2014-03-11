@@ -27,24 +27,27 @@ public class LeaveEvent extends Event {
 	public void execute() {
 		CarWashState s = (CarWashState) state;
 		double timeBefore = s.getLatestUpdateTime();//Store time before updating to current time
-		s.setLatestUpdateTime(priority);
-		s.setCurrentCWSEvent(this);
 		
 		int fastWashes = s.getAvailableFastWashes();
 		int slowWashes = s.getAvailableSlowWashes();
+		
 		//Update idle time.
 		s.setIdleTime(s.getIdleTime() + (priority - timeBefore) * (slowWashes + fastWashes));
+		
+		//Update queue time, there might be cars in queue
+		s.setQueueTime(s.getQueueTime() + (priority - timeBefore) * (s.getCarQueueSize()));
+		
+		s.setLatestUpdateTime(priority);
+		s.setCurrentCWSEvent(this);
+		
 		//Puts the first car in line in the wash a car just left.
 		if (s.getCarQueueSize() > 0) {
 			if (wash == Washes.FAST) {
-				//Update queue time.
-				s.setQueueTime(s.getQueueTime() + (priority - timeBefore) * (s.getCarQueueSize()));
 				//Add the car's LeaveEvent.
 				LeaveEvent e = new LeaveEvent(priority + s.getFastWashTime(), s.getFirstCarInLine(), Washes.FAST);
 				e.setState(s);
 				s.addEvent(e);
 			} else {
-				s.setQueueTime(s.getQueueTime() + (priority - timeBefore) * (s.getCarQueueSize()));
 				LeaveEvent e = new LeaveEvent(priority + s.getSlowWashTime(), s.getFirstCarInLine(), Washes.SLOW);
 				e.setState(s);
 				s.addEvent(e);
