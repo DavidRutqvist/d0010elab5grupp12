@@ -168,6 +168,15 @@ public class CarWashState extends SimState {
 			this.nrCarsWaited++;
 		}
 	}
+	
+	/**
+	 * Since it should count as a car have waited even though the line is empty this increases the track of cars which have passed the queue by one.
+	 */
+	public void passCarThroughEmptyLine()
+	{
+		this.nrCarsWaited++;
+	}
+	
 	/**
 	 * @return the first car in the car queue.
 	 */

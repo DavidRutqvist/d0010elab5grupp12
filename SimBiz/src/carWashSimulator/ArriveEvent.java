@@ -41,6 +41,8 @@ public class ArriveEvent extends Event {
 		if (fastWashes != 0) {
 			//Decrease the number of available washes.
 			s.setAvailableFastWashes(fastWashes-1);
+			//Pass car through empty line
+			s.passCarThroughEmptyLine();
 			//Add the car's LeaveEvent.
 			LeaveEvent e = new LeaveEvent(priority + s.getFastWashTime(), car, Washes.FAST);
 			e.setState(s);
@@ -49,6 +51,7 @@ public class ArriveEvent extends Event {
 		//Add a LeaveEvent for a slow wash if there are no empty fast washes but an empty slow wash.
 		else if (slowWashes != 0) {
 			s.setAvailableSlowWashes(slowWashes-1);
+			s.passCarThroughEmptyLine();
 			LeaveEvent e = new LeaveEvent(priority + s.getSlowWashTime(), car, Washes.SLOW);
 			e.setState(s);
 			s.addEvent(e);
