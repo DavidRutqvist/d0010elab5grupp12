@@ -24,10 +24,14 @@ public class ArriveEvent extends Event {
 	 */
 	public void execute() {
 		CarWashState s = ((CarWashState) state);
+		double timeBefore = s.getLatestUpdateTime();
+		s.setLatestUpdateTime(priority);
+		s.setCurrentCWSEvent(this);
+		
 		int slowWashes = s.getAvailableSlowWashes();
 		int fastWashes = s.getAvailableFastWashes();
 		//Update the idle time.
-		s.setIdleTime(s.getIdleTime() + (priority - s.getLatestUpdateTime()) * (slowWashes + fastWashes));
+		s.setIdleTime(s.getIdleTime() + (priority - timeBefore) * (slowWashes + fastWashes));
 		//Add a LeaveEvent for a fast wash if there is an empty fast wash.
 		if (fastWashes != 0) {
 			//Decrease the number of available washes.
@@ -47,14 +51,12 @@ public class ArriveEvent extends Event {
 		//Add the car to the queue if there are no empty washes.
 		else {
 			//There might be cars in line because there are no available washes, update the queue time.
-			s.setQueueTime(s.getQueueTime() + (priority - s.getLatestUpdateTime()) * (s.getCarQueueSize()));
+			s.setQueueTime(s.getQueueTime() + (priority - timeBefore) * (s.getCarQueueSize()));
 			s.addCarToLine(car);
 		}
 		//Add the next ArriveEvent to the EventQueue.
-		s.setLatestUpdateTime(priority);
 		ArriveEvent e = new ArriveEvent(s.getNewArrivalTime(), s.getCarFactory().createNewCar());
 		e.setState(s);
 		s.addEvent(e);
-		s.setCurrentCWSEvent(this);
 	}
 }
