@@ -1,5 +1,9 @@
 package simulator;
 
+/**
+ * Describes an event in an abstract way.
+ *
+ */
 public abstract class Event {
 	protected double priority;
 	protected SimState state;

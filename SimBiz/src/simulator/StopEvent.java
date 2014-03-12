@@ -1,5 +1,9 @@
 package simulator;
 
+/**
+ * Describes a general stop event for a simulation. A simulation is run until no event are left or until a stop event is fired.
+ *
+ */
 public class StopEvent extends Event {
 	/**
 	 * 

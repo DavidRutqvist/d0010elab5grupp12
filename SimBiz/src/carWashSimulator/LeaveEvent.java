@@ -2,6 +2,10 @@ package carWashSimulator;
 
 import simulator.Event;
 
+/**
+ * Describes an event when a car leaves the car wash, i.e. washing has finished.
+ *
+ */
 public class LeaveEvent extends Event {
 	private Car car;
 	private Washes wash; //Fast or slow wash.

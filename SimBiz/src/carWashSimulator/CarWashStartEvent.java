@@ -2,6 +2,9 @@ package carWashSimulator;
 
 import simulator.StartEvent;
 
+/**
+ * Describes the start of the car wash simulation.
+ */
 public class CarWashStartEvent extends StartEvent {
 	/**
 	 * 

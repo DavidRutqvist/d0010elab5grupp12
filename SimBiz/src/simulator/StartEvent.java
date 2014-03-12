@@ -1,5 +1,9 @@
 package simulator;
 
+/**
+ * Defines a general start event for a simulation.
+ *
+ */
 public class StartEvent extends Event {
 	/**
 	 * 

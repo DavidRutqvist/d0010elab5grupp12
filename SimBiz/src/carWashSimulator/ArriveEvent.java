@@ -2,6 +2,9 @@ package carWashSimulator;
 
 import simulator.Event;
 
+/**
+ * Describes an event when a car arrives at the car wash station.
+ */
 public class ArriveEvent extends Event {
 	private Car car;
 

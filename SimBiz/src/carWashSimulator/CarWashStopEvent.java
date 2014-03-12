@@ -2,6 +2,10 @@ package carWashSimulator;
 
 import simulator.StopEvent;
 
+/**
+ * Describes the end of the car was simulation.
+ *
+ */
 public class CarWashStopEvent extends StopEvent {
 	/**
 	 * 
