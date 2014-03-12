@@ -27,7 +27,7 @@ public class FIFO implements Queue<Car> {
 	 * Otherwise returns false.
 	 */
 	public boolean addAll(Collection<? extends Car> c) {
-		if((c.size() + list.size()) > maximum || list.isEmpty()){
+		if((c.size() + list.size()) > maximum){
 			return false;
 		}
 		list.addAll(c);
@@ -130,7 +130,7 @@ public class FIFO implements Queue<Car> {
 	 * Adds a Car to the queue.
 	 */
 	public boolean add(Car c) {
-		if (isFull() || list.isEmpty()){
+		if (isFull()){
 			return false;
 		}
 		list.add(c);
